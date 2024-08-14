@@ -1,13 +1,21 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:isar/isar.dart';
 import 'package:uuid/uuid.dart';
+
+part 'note.g.dart';
 
 const uuid = Uuid();
 
-class Note {
-  final String noteId;
+@collection
+class Note with EquatableMixin {
+  Id id = Isar.autoIncrement;
+  String noteId;
   final String task;
   final DateTime createdAt;
-  final Significance significance;
+
+  @enumerated
+  Significance significance;
   bool isFavorite = false;
   String description = "";
 
@@ -21,6 +29,9 @@ class Note {
   Note.now({required this.task, required this.significance})
       : createdAt = DateTime.now(),
         noteId = uuid.v4();
+
+  @override
+  List<Object?> get props => [noteId];
 }
 
 Map<Significance, IconData> significanceIcon = {

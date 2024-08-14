@@ -41,25 +41,31 @@ class NoteContainer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return GestureDetector(
-      onTap: () => NavigatorUtil.navigateToNoteDetail(context, note),
-      child: Card(
-        child: ListTile(
-          title: Text(
-            note.task,
-            style: GoogleFonts.robotoFlex(),
-          ),
-          subtitle: Text(
-            DateUtil.formatDate(note.createdAt),
-            style: GoogleFonts.robotoCondensed(),
-          ),
-          leading: Icon(noteIcon),
-          trailing: FavoriteButton(
-            isFavorite: note.isFavorite,
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-            onTap: (state) {
-              ref.read(notesProvider.notifier).toggleFavorite(note, state);
-            },
+    return Dismissible(
+      key: ObjectKey(note),
+      onDismissed: (direction) =>
+          ref.read(notesProvider.notifier).removeNote(note),
+      child: GestureDetector(
+        onTap: () => NavigatorUtil.navigateToNoteDetail(context, note),
+        child: Card(
+          child: ListTile(
+            title: Text(
+              note.task,
+              style: GoogleFonts.robotoFlex(),
+            ),
+            subtitle: Text(
+              DateUtil.formatDate(note.createdAt),
+              style: GoogleFonts.robotoCondensed(),
+            ),
+            leading: Icon(noteIcon),
+            trailing: FavoriteButton(
+              isFavorite: note.isFavorite,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+              onTap: (state) {
+                ref.read(notesProvider.notifier).updateNote(
+                    note, note.description, state, note.significance);
+              },
+            ),
           ),
         ),
       ),

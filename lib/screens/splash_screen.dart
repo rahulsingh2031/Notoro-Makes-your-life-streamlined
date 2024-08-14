@@ -1,3 +1,4 @@
+import 'package:crud_note/providers/notes_provider.dart';
 import 'package:crud_note/providers/setting_provider.dart';
 import 'package:crud_note/utils/navigator_util.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   void initState() {
     super.initState();
     ref.read(settingProvider.notifier).loadSetting();
+    initDB();
+  }
+
+  void initDB() async {
+    await ref.read(notesProvider.notifier).loadNotes();
   }
 
   @override

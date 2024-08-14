@@ -30,12 +30,12 @@ class _ModalContainerState extends ConsumerState<ModalContainer> {
             Padding(
               padding: const EdgeInsets.only(top: 10.0),
               child: CustomTextField(
-                onSubmit: (value) {
+                onSubmit: (value) async {
                   final newNote = Note.now(
                     task: value,
                     significance: _significance,
                   );
-                  ref.read(notesProvider.notifier).addNote(newNote);
+                  await ref.read(notesProvider.notifier).addNote(newNote);
                 },
               ),
             ),

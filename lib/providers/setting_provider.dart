@@ -9,7 +9,6 @@ class SettingProviderNotifier extends StateNotifier<Setting> {
     state = await Setting.initialize();
   }
 
-  ///
   void modifySetting(Setting setting) {
     state = setting;
   }

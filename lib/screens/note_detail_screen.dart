@@ -17,11 +17,24 @@ class NoteDetailScreen extends ConsumerStatefulWidget {
 
 class _NoteDetailScreenState extends ConsumerState<NoteDetailScreen> {
   late TextEditingController taskTextController;
+  late TextEditingController descriptionController;
+  var noteSignificance = Significance.moderate;
 
   @override
   void initState() {
     super.initState();
+    descriptionController =
+        TextEditingController(text: widget.note.description);
     taskTextController = TextEditingController(text: widget.note.task);
+
+    noteSignificance = widget.note.significance;
+  }
+
+  @override
+  void dispose() {
+    taskTextController.dispose();
+    descriptionController.dispose();
+    super.dispose();
   }
 
   @override
@@ -54,9 +67,11 @@ class _NoteDetailScreenState extends ConsumerState<NoteDetailScreen> {
                   isFavorite: widget.note.isFavorite,
                   color: Theme.of(context).colorScheme.onPrimary,
                   onTap: (state) {
-                    ref
-                        .read(notesProvider.notifier)
-                        .toggleFavorite(widget.note, state);
+                    ref.read(notesProvider.notifier).updateNote(
+                        widget.note,
+                        widget.note.description,
+                        state,
+                        widget.note.significance);
                   },
                 ),
               ),
@@ -77,10 +92,16 @@ class _NoteDetailScreenState extends ConsumerState<NoteDetailScreen> {
                   color: Theme.of(context).colorScheme.secondaryFixed),
             ),
             child: TextField(
+              controller: descriptionController,
               style: GoogleFonts.roboto().copyWith(
                 fontSize: 14,
                 color: Theme.of(context).colorScheme.onPrimary,
               ),
+              onSubmitted: (value) {
+                ref.read(notesProvider.notifier).updateNote(widget.note, value,
+                    widget.note.isFavorite, widget.note.significance);
+              },
+              textInputAction: TextInputAction.done,
               minLines: 1,
               maxLines: null,
               decoration: InputDecoration(
@@ -100,7 +121,7 @@ class _NoteDetailScreenState extends ConsumerState<NoteDetailScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               DropdownButton<Significance>(
-                  value: widget.note.significance,
+                  value: noteSignificance,
                   dropdownColor:
                       Theme.of(context).colorScheme.onSecondaryContainer,
                   underline: const SizedBox(),
@@ -127,7 +148,16 @@ class _NoteDetailScreenState extends ConsumerState<NoteDetailScreen> {
                             ],
                           )))
                       .toList(),
-                  onChanged: (significance) {}),
+                  onChanged: (significance) {
+                    setState(() {
+                      noteSignificance = significance ?? Significance.moderate;
+                    });
+                    ref.read(notesProvider.notifier).updateNote(
+                        widget.note,
+                        widget.note.description,
+                        widget.note.isFavorite,
+                        significance ?? Significance.moderate);
+                  }),
               Text("Created on ${DateUtil.formatDate(widget.note.createdAt)}",
                   style: GoogleFonts.roboto().copyWith(
                     color: Theme.of(context).colorScheme.surface,
