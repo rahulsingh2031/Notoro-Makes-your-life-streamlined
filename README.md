@@ -1,16 +1,22 @@
-# crud_note
+# Notoro 📝
+![Notoro Icon](assets/icon/icon_small.png)
 
-A new Flutter project.
+**Notoro** is a minimalist task assignment app designed to keep things simple. No clutter. No unnecessary features. Just the essentials to help you stay organized.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- 📋 **Task Assignment:** Assign tasks with ease.
+- 🎯 **Focused UI:** A clean, simple interface to help you focus on what matters.
+- 🚀 **Lightweight:** No bloat, just the tools you need.
 
-A few resources to get you started if this is your first Flutter project:
+## Why Notoro?
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Most task apps are cluttered with features you don't need, making them difficult to use. Notoro strips away the excess, giving you a streamlined experience.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Installation
+
+Clone the repository and get started:
+
+```bash
+git clone https://github.com/rahulsingh2031/notoro.git
+cd notoro
