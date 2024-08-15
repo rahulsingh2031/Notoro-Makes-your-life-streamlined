@@ -10,6 +10,7 @@ class SettingProviderNotifier extends StateNotifier<Setting> {
   }
 
   void modifySetting(Setting setting) {
+    setting.save();
     state = setting;
   }
 }

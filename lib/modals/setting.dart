@@ -7,8 +7,14 @@ class Setting {
   static Future<Setting> initialize() async {
     //For each new setting we have to setup like this :(
     final pref = await SharedPreferences.getInstance();
-    final setting =
-        Setting(useDarkTheme: pref.getBool("useDarkTheme") ?? false);
+
+    final setting = Setting(useDarkTheme: pref.getBool("useDarkTheme")!);
     return setting;
+  }
+
+  void save() async {
+    final pref = await SharedPreferences.getInstance();
+
+    pref.setBool("useDarkTheme", useDarkTheme);
   }
 }
